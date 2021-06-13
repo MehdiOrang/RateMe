@@ -1,14 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product Review {% endblock %}
+{% block title %}Product Review{% endblock %}
 
 {% block body %}
-    <h2>Your Review</h2>
+    <h2 class="mb-5">
+        Give your feedback!
+    </h2>
 
-    {% for product in products %}
-    <h4>{{product}}</h4>
-         <p>
-           <a href="{{ path('product', { slug: product.slug }) }}">View</a>
-       </p>
+    {% for row in products|batch(4) %}
+        <div class="row">
+            {% for product in row %}
+                <div class="col-12 col-md-6 col-lg-3 mb-4">
+                    <div class="card border shadow lift">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h4 class="font-weight-light">
+                                    {{ product }}
+                                </h4>
+                            </div>
+
+                            <a href="{{ path('product', { slug: product.slug }) }}"
+                               class="btn btn-sm btn-blue stretched-link">
+                                View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% endfor %}
 {% endblock %}

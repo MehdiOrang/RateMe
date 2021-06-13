@@ -22,7 +22,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function findAll()
     {
-       return $this->findBy([], ['price' => 'ASC']);
+       return $this->findBy([],['price' => 'ASC']);
        // we can use DESC eithergit 
     }
 

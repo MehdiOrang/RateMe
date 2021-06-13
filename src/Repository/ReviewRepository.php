@@ -52,7 +52,7 @@ class ReviewRepository extends ServiceEntityRepository
             ;
         }
 
-    public function getCommentPaginator(Product $product, int $offset): Paginator
+    public function getReviewPaginator(Product $product, int $offset): Paginator
    {
        $query = $this->createQueryBuilder('c')
           ->andWhere('c.product = :product')

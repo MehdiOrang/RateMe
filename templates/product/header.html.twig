@@ -1,0 +1,5 @@
+{% for product in products %}
+    <a class="nav-product" href="{{ path('product', { slug: product.slug }) }}">
+        {{ product }}
+    </a>
+{% endfor %}
