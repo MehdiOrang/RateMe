@@ -15,7 +15,7 @@ framework:
             # sync: 'sync://'
                 retry_strategy:
                     max_retries: 3
-                    git addmultiplier: 2
+                    multiplier: 2
             failed: 'doctrine://default?queue_name=failed'
 
         routing:
