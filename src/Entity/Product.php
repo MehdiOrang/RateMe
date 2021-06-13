@@ -8,10 +8,20 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @UniqueEntity("slug")
+ * 
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="product:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="product:item"}}},
+ *     order={"price"="ASC"},
+ *     paginationEnabled=false
+ * )
  */
 class Product
 {
@@ -20,21 +30,25 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['product:list', 'product:item'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['product:list', 'product:item'])]
     private $Name;
 
     /**
      * @ORM\Column(type="float")
      */
+    #[Groups(['product:list', 'product:item'])]
     private $price;
 
     /**
      * @ORM\Column(type="boolean")
      */
+    #[Groups(['product:list', 'product:item'])]
     private $freeShipment;
 
     /**
@@ -45,11 +59,13 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['product:list', 'product:item'])]
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
+    #[Groups(['product:list', 'product:item'])]
     private $slug;
 
     public function __construct()
