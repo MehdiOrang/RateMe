@@ -35,7 +35,13 @@ class ProductController extends AbstractController
         $this->bus = $bus;
      }
 
-    #[Route('/', name: 'homepage')]
+     #[Route('/')]
+     public function indexNoLocale(): Response
+     {
+             return $this->redirectToRoute('homepage', ['_locale' => 'en']);
+     }
+
+     #[Route('/{_locale<%app.supported_locales%>}/', name: 'homepage')]
     public function index( ProductRepository $productRepository): Response
     {
       return new Response($this->twig->render('product/index.html.twig', [
@@ -44,7 +50,7 @@ class ProductController extends AbstractController
     }
 
 
-    #[Route('/product_header', name: 'product_header')]
+    #[Route('/{_locale<%app.supported_locales%>}/product_header', name: 'product_header')]
     public function conferenceHeader(ProductRepository $productRepository): Response
    {
        $response = new Response($this->twig->render('product/header.html.twig', [
@@ -57,49 +63,8 @@ class ProductController extends AbstractController
 
 
 
-    // #[Route('/product/{slug}', name: 'product')]
-    // public function show(Request $request, Product $product, ReviewRepository $reviewRepository, string $photoDir): Response
-    // {
-    //     $review = new Review();
-    //     $form = $this->createForm(ReviewFormType::class, $review);
-    //     $form->handleRequest($request);
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $review->setProduct($product);
-    //         if ($photo = $form['photo']->getData()) {
-    //             $filename = bin2hex(random_bytes(6)).'.'.$photo->guessExtension();
-    //             try {
-    //                 $photo->move($photoDir, $filename);
-    //             } catch (FileException $e) {
-    //                 // unable to upload the photo, give up
-    //             }
-    //             $review->setPhotoFilename($filename);
-    //         }
 
-    //         $this->entityManager->persist($review);
-    //         $this->entityManager->flush();
-    //         $context = [
-    //                             'user_ip' => $request->getClientIp(),
-    //                             'user_agent' => $request->headers->get('user-agent'),
-    //                             'referrer' => $request->headers->get('referer'),
-    //                             'permalink' => $request->getUri(),
-    //                         ];
-    //         $this->bus->dispatch(new ReviewMessage($review->getId(), $context));
-
-
-    //         return $this->redirectToRoute('product', ['slug' => $product->getSlug()]);
-    //     }
-
-    //     return new Response($this->twig->render('product/show.html.twig', [
-    //         'product' => $product,
-    //         'reviews' => $reviewRepository->findBy(['product' => $product], ['createdAt' => 'DESC']),
-    //         'review_form' => $form->createView(),
-    //     ]));
-    // }
-
-
-
-
-    #[Route('/product/{slug}', name: 'product')]
+    #[Route('/{_locale<%app.supported_locales%>}/product/{slug}', name: 'product')]
     public function show(Request $request, Product $product, ReviewRepository $reviewRepository, NotifierInterface $notifier, string $photoDir): Response
     {
 
