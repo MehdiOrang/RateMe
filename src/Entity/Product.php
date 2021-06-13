@@ -39,9 +39,19 @@ class Product
      */
     private $reviews;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $brand;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+            return $this->Name;
     }
 
     public function getId(): ?int
@@ -111,6 +121,18 @@ class Product
                 $review->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }

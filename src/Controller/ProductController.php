@@ -2,22 +2,38 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Repository\ReviewRepository;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 class ProductController extends AbstractController
 {
-    #[Route('/', name: 'product')]
-    public function index(): Response
+
+    private $twig;
+
+    public function __construct(Environment $twig)
     {
-        return new Response(<<<EOF
-        <html>
-           <body>
-                <img src="/images/under-construction.gif" />
-            </body>
-        </html>
-        EOF
-        );
+        $this->twig = $twig;
+    }
+
+    #[Route('/', name: 'homepage')]
+    public function index( ProductRepository $productRepository): Response
+    {
+      return new Response($this->twig->render('product/index.html.twig', [
+                       'products' => $productRepository->findAll(),
+                   ]));
+    }
+
+    #[Route('/product/{id}', name: 'product')]
+    public function show(Product $product, ReviewRepository $reviewRepository): Response
+    {
+        return new Response($this->twig->render('product/show.html.twig', [
+            'product' => $product,
+            'reviews' => $reviewRepository->findBy(['product' => $product], ['createdAt' => 'DESC']),
+        ]));
     }
 }
