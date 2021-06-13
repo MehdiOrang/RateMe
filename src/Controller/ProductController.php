@@ -28,7 +28,7 @@ class ProductController extends AbstractController
                    ]));
     }
 
-    #[Route('/product/{id}', name: 'product')]
+    #[Route('/product/{slug}', name: 'product')]
     public function show(Product $product, ReviewRepository $reviewRepository): Response
     {
         return new Response($this->twig->render('product/show.html.twig', [
