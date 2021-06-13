@@ -3,9 +3,10 @@
 {% block title %}Product Review{% endblock %}
 
 {% block body %}
-    <h2>Your Review!</h2>
+    <h2>Your Review</h2>
 
     {% for product in products %}
+    <h4>{{product}}</h4>
          <p>
            <a href="{{ path('product', { id: product.id }) }}">View</a>
        </p>

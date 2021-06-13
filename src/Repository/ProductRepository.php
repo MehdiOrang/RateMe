@@ -19,6 +19,13 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+
+    public function findAll()
+    {
+       return $this->findBy([], ['price' => 'ASC']);
+       // we can use DESC eithergit 
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
