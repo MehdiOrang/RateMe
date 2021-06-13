@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\SpamChecker;
 use App\Entity\Product;
 use App\Entity\Review;
 use App\Form\ReviewFormType;
@@ -36,7 +37,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{slug}', name: 'product')]
-    public function show(Request $request, Product $product, ReviewRepository $reviewRepository,string $photoDir): Response
+    public function show(Request $request, Product $product, ReviewRepository $reviewRepository, SpamChecker $spamChecker,string $photoDir): Response
     {
         $review = new Review();
         $form = $this->createForm(ReviewFormType::class, $review);
@@ -54,6 +55,15 @@ class ProductController extends AbstractController
             }
 
             $this->entityManager->persist($review);
+            $context = [
+                                'user_ip' => $request->getClientIp(),
+                                'user_agent' => $request->headers->get('user-agent'),
+                                'referrer' => $request->headers->get('referer'),
+                                'permalink' => $request->getUri(),
+                            ];
+                            if (2 === $spamChecker->getSpamScore($review, $context)) {
+                                throw new \RuntimeException('Blatant spam, go away!');
+                            }
             $this->entityManager->flush();
 
             return $this->redirectToRoute('conference', ['slug' => $product->getSlug()]);
