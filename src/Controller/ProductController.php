@@ -66,7 +66,7 @@ class ProductController extends AbstractController
                             }
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('conference', ['slug' => $product->getSlug()]);
+            return $this->redirectToRoute('product', ['slug' => $product->getSlug()]);
         }
 
         return new Response($this->twig->render('product/show.html.twig', [
