@@ -26,11 +26,11 @@ class SpamChecker
         $response = $this->client->request('POST', $this->endpoint, [
             'body' => array_merge($context, [
                 'blog' => 'https://rateme.example.com',
-                'comment_type' => 'review',
-                'comment_author' => $review->getAuthor(),
-                'comment_author_email' => $review->getEmail(),
-                'comment_content' => $review->getText(),
-                'comment_date_gmt' => $review->getCreatedAt()->format('c'),
+                'review_type' => 'review',
+                'review_author' => $review->getAuthor(),
+                'review_author_email' => $review->getEmail(),
+                'review_content' => $review->getText(),
+                'review_date_gmt' => $review->getCreatedAt()->format('c'),
                 'blog_lang' => 'en',
                 'blog_charset' => 'UTF-8',
                 'is_test' => true,

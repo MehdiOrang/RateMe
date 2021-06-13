@@ -60,6 +60,12 @@ class Review
      */
     private $photoFilename;
 
+    /**
+     * @ORM\Column(type="string", length=255, options={"default": "submitted"})
+
+     */
+    private $state = 'submitted';
+
 
     public function __toString(): string
     {
@@ -159,6 +165,18 @@ class Review
     public function setPhotoFilename(?string $photoFilename): self
     {
         $this->photoFilename = $photoFilename;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

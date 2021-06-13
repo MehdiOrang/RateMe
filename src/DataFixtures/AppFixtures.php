@@ -42,7 +42,16 @@ class AppFixtures extends Fixture
         $review1->setEmail('joe@example.com');
         $review1->setRate(4);
         $review1->setText('This is a great shoes.');
+        $review1->setState('published');
         $manager->persist($review1);
+
+        $review2 = new Review();
+        $review2->setProduct($addidas);
+        $review2->setAuthor('Jack');
+        $review2->setEmail('jack@example.com');
+        $review2->setRate(5);
+        $review2->setText('This is a great shoes.');
+        $manager->persist($review2);
         
         $admin = new Admin();
         $admin->setRoles(['ROLE_ADMIN']);

@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\SpamChecker;
 use App\Entity\Product;
 use App\Entity\Review;
 use App\Form\ReviewFormType;
+use App\Message\ReviewMessage;
 use App\Repository\ReviewRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -21,11 +22,13 @@ class ProductController extends AbstractController
 
     private $twig;
     private $entityManager;
+    private $bus;
 
-    public function __construct(Environment $twig, EntityManagerInterface $entityManager)
+    public function __construct(Environment $twig, EntityManagerInterface $entityManager,MessageBusInterface $bus)
      {
          $this->twig = $twig;
         $this->entityManager = $entityManager;
+        $this->bus = $bus;
      }
 
     #[Route('/', name: 'homepage')]
@@ -37,7 +40,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{slug}', name: 'product')]
-    public function show(Request $request, Product $product, ReviewRepository $reviewRepository, SpamChecker $spamChecker,string $photoDir): Response
+    public function show(Request $request, Product $product, ReviewRepository $reviewRepository, string $photoDir): Response
     {
         $review = new Review();
         $form = $this->createForm(ReviewFormType::class, $review);
@@ -55,16 +58,15 @@ class ProductController extends AbstractController
             }
 
             $this->entityManager->persist($review);
+            $this->entityManager->flush();
             $context = [
                                 'user_ip' => $request->getClientIp(),
                                 'user_agent' => $request->headers->get('user-agent'),
                                 'referrer' => $request->headers->get('referer'),
                                 'permalink' => $request->getUri(),
                             ];
-                            if (2 === $spamChecker->getSpamScore($review, $context)) {
-                                throw new \RuntimeException('Blatant spam, go away!');
-                            }
-            $this->entityManager->flush();
+            $this->bus->dispatch(new ReviewMessage($review->getId(), $context));
+
 
             return $this->redirectToRoute('product', ['slug' => $product->getSlug()]);
         }

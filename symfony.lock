@@ -189,6 +189,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "predis/predis": {
+        "version": "v1.1.7"
+    },
     "psr/cache": {
         "version": "2.0.0"
     },
@@ -264,6 +267,21 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "symfony-bundles/redis-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "2becca99cc83c0e6d2ad68875fa84c516298dec4"
+        },
+        "files": [
+            "config/packages/sb_redis.yaml"
+        ]
+    },
+    "symfony/amqp-messenger": {
+        "version": "5.4.x-dev"
+    },
     "symfony/asset": {
         "version": "5.4.x-dev"
     },
@@ -316,6 +334,9 @@
         "version": "v2.4.0"
     },
     "symfony/doctrine-bridge": {
+        "version": "5.4.x-dev"
+    },
+    "symfony/doctrine-messenger": {
         "version": "5.4.x-dev"
     },
     "symfony/dom-crawler": {
@@ -411,6 +432,18 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/messenger": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "e9a414b113ceadbf4e52abe37bf8f1b443f06ccb"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
     },
     "symfony/mime": {
         "version": "5.4.x-dev"
@@ -509,6 +542,9 @@
         "version": "5.4.x-dev"
     },
     "symfony/proxy-manager-bridge": {
+        "version": "5.4.x-dev"
+    },
+    "symfony/redis-messenger": {
         "version": "5.4.x-dev"
     },
     "symfony/routing": {

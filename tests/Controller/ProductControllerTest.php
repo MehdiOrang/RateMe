@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Repository\ReviewRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ProductControllerTest extends WebTestCase
@@ -38,10 +40,16 @@ class ProductControllerTest extends WebTestCase
             'review_form[author]' => 'Fabien',
             'review_form[rate]' => 2,
             'review_form[text]' => 'Some feedback from an automated functional test',
-            'review_form[email]' => 'me@automat.ed',
+            'review_form[email]' => $email ='me@automat.ed',
             'review_form[photo]' => dirname(__DIR__, 2).'/public/images/under-construction.gif',
         ]);
         $this->assertResponseRedirects();
+        
+        // simulate comment validation
+        $comment = self::$container->get(CommentRepository::class)->findOneByEmail($email);
+         $comment->setState('published');
+        self::$container->get(EntityManagerInterface::class)->flush();
+
         $client->followRedirect();
         $this->assertSelectorExists('div:contains("review")');
     }

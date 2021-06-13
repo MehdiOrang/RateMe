@@ -29,7 +29,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
      /**
     * @dataProvider getReviews
     */
-   public function testSpamScore(int $expectedScore, ResponseInterface $response, review $review, array $context)
+   public function testSpamScore(int $expectedScore, ResponseInterface $response, Review $review, array $context)
    {
        $client = new MockHttpClient([$response]);
        $checker = new SpamChecker($client, 'abcde');
