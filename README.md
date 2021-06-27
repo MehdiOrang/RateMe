@@ -1,5 +1,6 @@
 # RateMe
 A Symfony prototype with deep back-end features
+You should have already php, composer, symfony, yarn, npm, docker, and docker compose installed on your machine. 
 1. composer install
 2. make sure docker is running and starts services with docker-compose up
 3. check all 4 services are up with this command : docker-compose ps
