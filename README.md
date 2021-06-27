@@ -7,6 +7,6 @@ A Symfony prototype with deep back-end features
 5. npm install
 6. symfony run -d yarn encore dev --watch
 7. symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async
-8. There are multiple ways to access webmailer like : access through ip address and port provided by docker-compose ps or simply run this command through terminal 
+8. There are multiple ways to access webmailer like : access through ip address and port provided by docker-compose ps or simply run this command through terminal symfony open:local:webmail
 
 
