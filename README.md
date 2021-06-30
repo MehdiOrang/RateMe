@@ -1,5 +1,6 @@
 # RateMe
-A Symfony prototype with deep back-end features
+A Symfony prototype with deep back-end features.
+
 You should have already php, composer, symfony, yarn, npm, docker, and docker compose installed on your machine.
 
 1. composer install
